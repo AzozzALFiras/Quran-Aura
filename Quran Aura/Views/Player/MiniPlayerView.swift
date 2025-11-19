@@ -5,35 +5,71 @@ struct MiniPlayerView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            ProgressBar(value: $audioPlayer.currentTime, range: 0...audioPlayer.duration)
-                .frame(height: 2)
-            
-            HStack {
-                if let surah = audioPlayer.currentSurah {
-                    if let reciter = audioPlayer.currentReciter {
-                        RemoteImage(
-                            url: reciter.secureImage,
-                            placeholder: "book.circle.fill",
-                            width: 40,
-                            height: 40,
-                            cornerRadius: 6
-                        )
-                    } else {
-                        Image(systemName: "book.circle.fill")
-                            .font(.title2)
-                            .foregroundColor(.purple)
-                    }
+            // Animated Progress bar
+            GeometryReader { geometry in
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .fill(Color.white.opacity(0.3))
+                        .frame(height: 3)
                     
-                    VStack(alignment: .leading, spacing: 2) {
+                    Rectangle()
+                        .fill(
+                            LinearGradient(
+                                gradient: Gradient(colors: [.white, .white.opacity(0.8)]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .frame(width: geometry.size.width * CGFloat(audioPlayer.currentTime / max(audioPlayer.duration, 1)), height: 3)
+                }
+            }
+            .frame(height: 3)
+            
+            HStack(spacing: 12) {
+                if let surah = audioPlayer.currentSurah {
+                    // Album Art with rotation animation
+                    ZStack {
+                        if let reciter = audioPlayer.currentReciter {
+                            RemoteImage(
+                                url: reciter.secureImage,
+                                placeholder: "music.note",
+                                width: 50,
+                                height: 50,
+                                cornerRadius: 8
+                            )
+                        } else {
+                            Image(systemName: "music.note")
+                                .font(.title2)
+                                .foregroundColor(.white)
+                                .frame(width: 50, height: 50)
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [.purple, .blue]),
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .cornerRadius(8)
+                        }
+                    }
+                    .rotationEffect(.degrees(audioPlayer.isPlaying ? 360 : 0))
+                    .animation(audioPlayer.isPlaying ? 
+                        Animation.linear(duration: 8).repeatForever(autoreverses: false) : .default,
+                        value: audioPlayer.isPlaying
+                    )
+                    
+                    VStack(alignment: .leading, spacing: 4) {
                         Text(surah.name)
-                            .font(.caption)
-                            .fontWeight(.medium)
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
                             .foregroundColor(.white)
+                            .lineLimit(1)
                         
                         if let reciter = audioPlayer.currentReciter {
                             Text(reciter.name)
-                                .font(.caption2)
-                                .foregroundColor(.white.opacity(0.7))
+                                .font(.caption)
+                                .foregroundColor(.white.opacity(0.8))
+                                .lineLimit(1)
                         }
                     }
                     
@@ -60,9 +96,22 @@ struct MiniPlayerView: View {
                     }
                 }
             }
-            .padding(.horizontal)
-            .padding(.vertical, 8)
-            .background(Color(.secondarySystemBackground))
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color.purple.opacity(0.9),
+                        Color.blue.opacity(0.8)
+                    ]),
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
+            .cornerRadius(16)
+            .padding(.horizontal, 16)
+            .padding(.bottom, 8)
+            .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
         }
         .alert("خطأ في التشغيل", isPresented: .constant(audioPlayer.errorMessage != nil)) {
             Button("حسناً", role: .cancel) {

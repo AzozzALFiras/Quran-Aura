@@ -1,3 +1,4 @@
+// SettingsView.swift
 import SwiftUI
 
 struct SettingsView: View {
@@ -5,7 +6,6 @@ struct SettingsView: View {
     @State private var showingAbout = false
     
     let themes = ["أرجواني", "أزرق", "أخضر", "برتقالي"]
-    let qualities = ["عالية", "متوسطة", "منخفضة"]
     
     var body: some View {
         Form {
@@ -19,33 +19,11 @@ struct SettingsView: View {
                 }
             }
             
-            Section(header: Text("التشغيل")) {
-                Picker("جودة التشغيل", selection: $appData.settings.playbackQuality) {
-                    ForEach(0..<qualities.count, id: \.self) { index in
-                        Text(qualities[index]).tag(index)
-                    }
-                }
-                
-                Toggle("التشغيل التلقائي", isOn: $appData.settings.autoPlayNext)
-            }
-            
             Section(header: Text("وسائل التواصل الاجتماعي")) {
                 SocialMediaView()
             }
             
-            Section(header: Text("تواصل معنا")) {
-                Button("البريد الإلكتروني") {
-                    sendEmail()
-                }
-                
-                Button("الموقع الإلكتروني") {
-                    openWebsite()
-                }
-            }
-            
             Section(header: Text("عام")) {
-                Toggle("الإشعارات", isOn: $appData.settings.notificationsEnabled)
-                
                 Button("حول التطبيق") {
                     showingAbout = true
                 }
@@ -99,19 +77,6 @@ struct SettingsView: View {
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let rootViewController = windowScene.windows.first?.rootViewController {
             rootViewController.present(activityVC, animated: true)
-        }
-    }
-    
-    private func sendEmail() {
-        let email = "support@quranaura.com"
-        if let url = URL(string: "mailto:\(email)") {
-            UIApplication.shared.open(url)
-        }
-    }
-    
-    private func openWebsite() {
-        if let url = URL(string: "https://quranaura.com") {
-            UIApplication.shared.open(url)
         }
     }
 }

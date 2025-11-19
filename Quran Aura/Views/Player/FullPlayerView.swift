@@ -8,11 +8,14 @@ struct FullPlayerView: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(
-                gradient: Gradient(colors: [Color(.systemPurple).opacity(0.2), Color(.systemBlue).opacity(0.2)]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
+           LinearGradient(
+        gradient: Gradient(colors: [
+            Color(red: 10/255, green: 25/255, blue: 70/255),   // أزرق داكن
+            Color(red: 55/255, green: 15/255, blue: 90/255)    // بنفسجي غامق
+        ]),
+        startPoint: .top,
+        endPoint: .bottom
+    )
             .ignoresSafeArea()
             
             VStack(spacing: 40) {
