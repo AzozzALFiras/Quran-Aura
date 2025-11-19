@@ -93,7 +93,7 @@
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/yourusername/quran-aura.git
+   git clone https://github.com/azozzalfiras/quran-aura.git
    cd quran-aura
    ```
 
@@ -464,7 +464,7 @@ xcodebuild test -scheme "Quran Aura" -only-testing:QuranAuraTests/NetworkService
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/quran-aura.git
+git clone https://github.com/azozzalfiras/quran-aura.git
 
 # Navigate to project directory
 cd quran-aura
@@ -518,7 +518,7 @@ We welcome contributions from the community! Here's how you can help:
 
 1. **Fork the Repository**
    ```bash
-   git clone https://github.com/yourusername/quran-aura.git
+   git clone https://github.com/azozzalfiras/quran-aura.git
    ```
 
 2. **Create a Branch**
@@ -562,7 +562,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ```
 MIT License
 
-Copyright (c) 2024 Quran Aura
+Copyright (c) 2025 Quran Aura
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -589,22 +589,22 @@ SOFTWARE.
 
 ### Developer
 
-- **Email**: support@quran-aura.com
+- **Email**: dev@3zozz.com
 - **Website**: https://quran-aura.fahmly.com
 
 ### Social Media
 
-- **X (Twitter)**: [@QuranAura](https://twitter.com/QuranAura)
-- **Instagram**: [@QuranAura](https://instagram.com/QuranAura)
-- **TikTok**: [@QuranAura](https://tiktok.com/@QuranAura)
-- **Snapchat**: [@QuranAura](https://snapchat.com/add/QuranAura)
-- **GitHub**: [github.com/QuranAura](https://github.com/QuranAura)
+- **X (Twitter)**: [@QuranAura](https://twitter.com/dev_3zozz)
+- **Instagram**: [@QuranAura](https://instagram.com/dev_3zozz)
+- **TikTok**: [@QuranAura](https://tiktok.com/@dev_3zozz)
+- **Snapchat**: [@QuranAura](https://snapchat.com/add/n.uf)
+- **GitHub**: [github.com/QuranAura](https://github.com/azozzalfiras)
 
 ### Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/quran-aura/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/quran-aura/discussions)
-- **Email**: support@quran-aura.com
+- **Issues**: [GitHub Issues](https://github.com/azozzalfiras/quran-aura/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/azozzalfiras/quran-aura/discussions)
+- **Email**: dev@3zozz.com
 
 ---
 
