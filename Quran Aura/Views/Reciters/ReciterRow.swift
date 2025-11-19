@@ -18,11 +18,11 @@ struct ReciterRow: View {
                 Text(reciter.name)
                     .font(.body)
                     .fontWeight(.medium)
-                    .foregroundColor(.white)
+                    .foregroundColor(AppConfig.shared.textPrimary)
                 
                 Text("114 سورة")
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(AppConfig.shared.textSecondary)
             }
             
             Spacer()
@@ -31,15 +31,15 @@ struct ReciterRow: View {
                 toggleFavorite(reciter: reciter)
             } label: {
                 Image(systemName: isFavorite(reciter: reciter) ? "heart.fill" : "heart")
-                    .foregroundColor(isFavorite(reciter: reciter) ? .red : .white)
+                    .foregroundColor(isFavorite(reciter: reciter) ? .red : AppConfig.shared.textPrimary)
             }
             
             Image(systemName: "play.circle")
                 .font(.caption)
-                .foregroundColor(.purple)
+                .foregroundColor(.appPrimary)
         }
         .padding(.vertical, 8)
-        .background(Color(.secondarySystemBackground))
+        .background(AppConfig.shared.cardBackground)
     }
     
     private func isFavorite(reciter: Reciter) -> Bool {

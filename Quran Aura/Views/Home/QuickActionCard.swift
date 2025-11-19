@@ -13,11 +13,11 @@ struct QuickActionCard: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
                         .font(.headline)
-                        .foregroundColor(.white)
+                        .foregroundColor(AppConfig.shared.textPrimary)
                     
                     Text(subtitle)
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(AppConfig.shared.textSecondary)
                 }
                 
                 Spacer()
@@ -27,7 +27,7 @@ struct QuickActionCard: View {
                     .foregroundColor(color)
             }
             .padding()
-            .background(Color(.secondarySystemBackground))
+            .background(AppConfig.shared.cardBackground)
             .cornerRadius(12)
         }
         .buttonStyle(PlainButtonStyle())

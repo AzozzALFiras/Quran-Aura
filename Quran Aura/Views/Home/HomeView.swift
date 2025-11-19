@@ -8,6 +8,8 @@ struct HomeView: View {
     @Binding var showingFullPlayer: Bool
     @Binding var selectedTab: Int
     
+    @State private var showingSettings = false
+    
     var featuredReciters: [Reciter] {
         Array(reciters.prefix(6))
     }
@@ -19,24 +21,42 @@ struct HomeView: View {
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 20) {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(getGreeting())
-                        .font(.title2)
-                        .foregroundColor(.white.opacity(0.8))
+                // Header with Settings Icon
+                HStack {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(getGreeting())
+                            .font(.title2)
+                            .foregroundColor(AppConfig.shared.textSecondary)
+                        
+                        Text(AppConfig.shared.strings.quran)
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundColor(AppConfig.shared.textPrimary)
+                    }
                     
-                    Text("القرآن الكريم")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
+                    Spacer()
+                    
+                    // Settings Button
+                    Button(action: {
+                        showingSettings = true
+                    }) {
+                        Image(systemName: "gearshape.fill")
+                            .font(.title2)
+                            .foregroundColor(AppConfig.shared.textPrimary)
+                            .padding(8)
+                            .background(Color.white.opacity(0.2))
+                            .clipShape(Circle())
+                    }
                 }
                 .padding(.horizontal)
                 
+                // Quick Actions Grid
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
                     QuickActionCard(
-                        title: "استمر في الاستماع",
-                        subtitle: "آخر سورة",
+                        title: AppConfig.shared.strings.continueListening,
+                        subtitle: AppConfig.shared.strings.lastSurah,
                         icon: "play.circle.fill",
-                        color: .purple,
+                        color: .appPrimary,
                         action: {
                             if let recent = appData.recentPlays.first {
                                 audioPlayer.playSurah(recent.surah, for: recent.reciter)
@@ -46,17 +66,17 @@ struct HomeView: View {
                     )
                     
                     QuickActionCard(
-                        title: "السور المفضلة",
+                        title: AppConfig.shared.strings.favoriteSurahs,
                         subtitle: "\(appData.favoriteSurahs.count) سورة",
                         icon: "heart.fill",
-                        color: .pink,
+                        color: .appAccent,
                         action: {
                             selectedTab = 1
                         }
                     )
                     
                     QuickActionCard(
-                        title: "التلاوات الأخيرة",
+                        title: AppConfig.shared.strings.recentRecitations,
                         subtitle: "\(appData.recentPlays.count) تلاوة",
                         icon: "clock.fill",
                         color: .orange,
@@ -64,10 +84,10 @@ struct HomeView: View {
                     )
                     
                     QuickActionCard(
-                        title: "القراء المفضلون",
+                        title: AppConfig.shared.strings.favoriteReciters,
                         subtitle: "\(appData.favoriteReciters.count) قارئ",
                         icon: "person.2.fill",
-                        color: .blue,
+                        color: .appSecondary,
                         action: {
                             selectedTab = 2
                         }
@@ -75,19 +95,20 @@ struct HomeView: View {
                 }
                 .padding(.horizontal)
                 
+                // Recent Plays Section
                 if !appData.recentPlays.isEmpty {
                     VStack(alignment: .leading, spacing: 15) {
                         HStack {
-                            Text("المستمع إليه حديثاً")
+                            Text(AppConfig.shared.strings.recentlyListened)
                                 .font(.title2)
                                 .fontWeight(.bold)
-                                .foregroundColor(.white)
+                                .foregroundColor(AppConfig.shared.textPrimary)
                             
                             Spacer()
                             
-                            Button("عرض الكل") {}
+                            Button(AppConfig.shared.strings.viewAll) {}
                                 .font(.caption)
-                                .foregroundColor(.purple)
+                                .foregroundColor(.appPrimary)
                         }
                         
                         LazyVStack(spacing: 8) {
@@ -99,11 +120,12 @@ struct HomeView: View {
                     .padding(.horizontal)
                 }
                 
+                // Featured Reciters Section
                 VStack(alignment: .leading, spacing: 15) {
-                    Text("القراء المميزون")
+                    Text(AppConfig.shared.strings.featuredReciters)
                         .font(.title2)
                         .fontWeight(.bold)
-                        .foregroundColor(.white)
+                        .foregroundColor(AppConfig.shared.textPrimary)
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack(spacing: 15) {
@@ -120,11 +142,12 @@ struct HomeView: View {
                     }
                 }
                 
+                // Recent Surahs Section
                 VStack(alignment: .leading, spacing: 15) {
-                    Text("السور الأخيرة")
+                    Text(AppConfig.shared.strings.recentSurahs)
                         .font(.title2)
                         .fontWeight(.bold)
-                        .foregroundColor(.white)
+                        .foregroundColor(AppConfig.shared.textPrimary)
                     
                     LazyVStack(spacing: 8) {
                         ForEach(recentSurahs) { surah in
@@ -141,10 +164,13 @@ struct HomeView: View {
             }
             .padding(.vertical)
         }
-        .background(Color(.systemBackground))
+        .background(AppConfig.shared.primaryGradient)
         .navigationBarHidden(true)
-        .alert("خطأ في التشغيل", isPresented: .constant(audioPlayer.errorMessage != nil)) {
-            Button("حسناً", role: .cancel) {
+        .sheet(isPresented: $showingSettings) {
+            SettingsView(appData: appData)
+        }
+        .alert(AppConfig.shared.strings.playbackError, isPresented: .constant(audioPlayer.errorMessage != nil)) {
+            Button(AppConfig.shared.strings.ok, role: .cancel) {
                 audioPlayer.errorMessage = nil
             }
         } message: {
@@ -157,9 +183,9 @@ struct HomeView: View {
     private func getGreeting() -> String {
         let hour = Calendar.current.component(.hour, from: Date())
         switch hour {
-        case 5..<12: return "صباح الخير"
-        case 12..<18: return "مساء الخير"
-        default: return "مساء الخير"
+        case 5..<12: return AppConfig.shared.strings.goodMorning
+        case 12..<18: return AppConfig.shared.strings.goodEvening
+        default: return AppConfig.shared.strings.goodEvening
         }
     }
 }

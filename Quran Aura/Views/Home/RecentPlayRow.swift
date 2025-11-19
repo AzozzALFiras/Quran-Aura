@@ -9,19 +9,19 @@ struct RecentPlayRow: View {
         HStack {
             Text(recent.surah.formattedNumber)
                 .font(.caption)
-                .foregroundColor(.white)
+                .foregroundColor(AppConfig.shared.textPrimary)
                 .frame(width: 30, height: 30)
-                .background(Circle().fill(Color.purple))
+                .background(Circle().fill(Color.appPrimary))
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(recent.surah.name)
                     .font(.body)
                     .fontWeight(.medium)
-                    .foregroundColor(.white)
+                    .foregroundColor(AppConfig.shared.textPrimary)
                 
                 Text(recent.reciter.name)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(AppConfig.shared.textSecondary)
             }
             
             Spacer()
@@ -32,11 +32,11 @@ struct RecentPlayRow: View {
             } label: {
                 Image(systemName: "play.circle.fill")
                     .font(.title2)
-                    .foregroundColor(.purple)
+                    .foregroundColor(.appPrimary)
             }
         }
         .padding()
-        .background(Color(.secondarySystemBackground))
+        .background(AppConfig.shared.cardBackground)
         .cornerRadius(8)
     }
 }

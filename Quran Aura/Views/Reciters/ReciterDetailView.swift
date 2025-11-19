@@ -31,14 +31,14 @@ struct ReciterDetailView: View {
                 Text(reciter.name)
                     .font(.title2)
                     .fontWeight(.bold)
-                    .foregroundColor(.white)
+                    .foregroundColor(AppConfig.shared.textPrimary)
                 
                 Text("قارئ قرآن كريم")
                     .font(.body)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(AppConfig.shared.textSecondary)
             }
             .padding()
-            .background(Color(.secondarySystemBackground))
+            .background(AppConfig.shared.cardBackground)
             .cornerRadius(12)
             .padding(.horizontal)
             
@@ -48,7 +48,7 @@ struct ReciterDetailView: View {
                     .padding()
             } else if surahs.isEmpty {
                 Text("لا توجد سور متاحة")
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(AppConfig.shared.textSecondary)
                     .padding()
             } else {
                 List(filteredSurahs) { surah in
@@ -59,19 +59,19 @@ struct ReciterDetailView: View {
                         HStack {
                             Text(surah.formattedNumber)
                                 .font(.caption)
-                                .foregroundColor(.white)
+                                .foregroundColor(AppConfig.shared.textPrimary)
                                 .frame(width: 30, height: 30)
-                                .background(Circle().fill(Color.purple))
+                                .background(Circle().fill(Color.appPrimary))
                             
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(surah.name)
                                     .font(.body)
                                     .fontWeight(.medium)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(AppConfig.shared.textPrimary)
                                 
                                 Text("سورة رقم \(surah.number)")
                                     .font(.caption)
-                                    .foregroundColor(.white.opacity(0.7))
+                                    .foregroundColor(AppConfig.shared.textSecondary)
                             }
                             
                             Spacer()
@@ -79,21 +79,22 @@ struct ReciterDetailView: View {
                             if audioPlayer.isLoading && audioPlayer.currentSurah?.id == surah.id {
                                 ProgressView()
                                     .scaleEffect(0.8)
-                                    .tint(.purple)
+                                    .tint(.appPrimary)
                             } else {
                                 Image(systemName: "play.circle.fill")
                                     .font(.title2)
-                                    .foregroundColor(.purple)
+                                    .foregroundColor(.appPrimary)
                             }
                         }
                         .padding(.vertical, 4)
                     }
                     .disabled(audioPlayer.isLoading)
                 }
-                .searchable(text: $searchText, prompt: "ابحث عن سورة...")
+                .searchable(text: $searchText, prompt: AppConfig.shared.strings.searchSurahs)
                 .listStyle(PlainListStyle())
             }
         }
+        .background(AppConfig.shared.primaryGradient)
         .navigationTitle(reciter.name)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -101,15 +102,15 @@ struct ReciterDetailView: View {
                     toggleFavorite(reciter: reciter)
                 } label: {
                     Image(systemName: isFavorite(reciter: reciter) ? "heart.fill" : "heart")
-                        .foregroundColor(isFavorite(reciter: reciter) ? .red : .purple)
+                        .foregroundColor(isFavorite(reciter: reciter) ? .red : .appPrimary)
                 }
             }
         }
         .onAppear {
             loadSurahs()
         }
-        .alert("خطأ في التشغيل", isPresented: .constant(audioPlayer.errorMessage != nil)) {
-            Button("حسناً", role: .cancel) {
+        .alert(AppConfig.shared.strings.playbackError, isPresented: .constant(audioPlayer.errorMessage != nil)) {
+            Button(AppConfig.shared.strings.ok, role: .cancel) {
                 audioPlayer.errorMessage = nil
             }
         } message: {

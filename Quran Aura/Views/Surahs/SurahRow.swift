@@ -13,19 +13,19 @@ struct SurahRow: View {
         HStack {
             Text(surah.formattedNumber)
                 .font(.caption)
-                .foregroundColor(.white)
+                .foregroundColor(AppConfig.shared.textPrimary)
                 .frame(width: 30, height: 30)
-                .background(Circle().fill(Color.purple))
+                .background(Circle().fill(Color.appPrimary))
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(surah.name)
                     .font(.body)
                     .fontWeight(.medium)
-                    .foregroundColor(.white)
+                    .foregroundColor(AppConfig.shared.textPrimary)
                 
                 Text("سورة مكية • \(getVerseCount(surahNumber: surah.number)) آية")
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(AppConfig.shared.textSecondary)
             }
             
             Spacer()
@@ -35,14 +35,14 @@ struct SurahRow: View {
                     toggleFavorite(surah: surah)
                 } label: {
                     Image(systemName: isFavorite(surah: surah) ? "heart.fill" : "heart")
-                        .foregroundColor(isFavorite(surah: surah) ? .red : .white)
+                        .foregroundColor(isFavorite(surah: surah) ? .red : AppConfig.shared.textPrimary)
                 }
                 
                 Button {
                     showingShareSheet = true
                 } label: {
                     Image(systemName: "square.and.arrow.up")
-                        .foregroundColor(.white)
+                        .foregroundColor(AppConfig.shared.textPrimary)
                 }
                 
                 Button {
@@ -56,18 +56,18 @@ struct SurahRow: View {
                     if audioPlayer.isLoading && audioPlayer.currentSurah?.id == surah.id {
                         ProgressView()
                             .scaleEffect(0.8)
-                            .tint(.purple)
+                            .tint(.appPrimary)
                     } else {
                         Image(systemName: "play.circle.fill")
                             .font(.title2)
-                            .foregroundColor(.purple)
+                            .foregroundColor(.appPrimary)
                     }
                 }
                 .disabled(audioPlayer.isLoading)
             }
         }
         .padding()
-        .background(Color(.secondarySystemBackground))
+        .background(AppConfig.shared.cardBackground)
         .cornerRadius(8)
         .alert("اختر قارئ", isPresented: $showingReciterPicker) {
             ForEach(getSampleReciters()) { reciter in
@@ -77,12 +77,12 @@ struct SurahRow: View {
                     showingFullPlayer = true
                 }
             }
-            Button("إلغاء", role: .cancel) { }
+            Button(AppConfig.shared.strings.cancel, role: .cancel) { }
         } message: {
             Text("يرجى اختيار قارئ لتشغيل السورة")
         }
         .sheet(isPresented: $showingShareSheet) {
-            ShareSheet(activityItems: ["استمع إلى سورة \(surah.name) من تطبيق القرآن الكريم"])
+            ShareSheet(activityItems: ["استمع إلى سورة \(surah.name) من تطبيق \(AppConfig.shared.appName)"])
         }
     }
     

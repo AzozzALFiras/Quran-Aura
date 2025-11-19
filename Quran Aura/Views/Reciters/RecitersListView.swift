@@ -26,13 +26,14 @@ struct RecitersListView: View {
             } label: {
                 ReciterRow(reciter: reciter, appData: appData)
             }
+            .listRowBackground(AppConfig.shared.cardBackground)
         }
         .listStyle(PlainListStyle())
-        .background(Color(.systemBackground))
-        .navigationTitle("القراء")
-        .searchable(text: $searchText, prompt: "ابحث عن قارئ...")
-        .alert("خطأ في التشغيل", isPresented: .constant(audioPlayer.errorMessage != nil)) {
-            Button("حسناً", role: .cancel) {
+        .background(AppConfig.shared.primaryGradient)
+        .navigationTitle(AppConfig.shared.strings.reciters)
+        .searchable(text: $searchText, prompt: AppConfig.shared.strings.searchReciters)
+        .alert(AppConfig.shared.strings.playbackError, isPresented: .constant(audioPlayer.errorMessage != nil)) {
+            Button(AppConfig.shared.strings.ok, role: .cancel) {
                 audioPlayer.errorMessage = nil
             }
         } message: {

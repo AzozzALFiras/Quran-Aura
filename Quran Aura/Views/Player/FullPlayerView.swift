@@ -8,15 +8,8 @@ struct FullPlayerView: View {
     
     var body: some View {
         ZStack {
-           LinearGradient(
-        gradient: Gradient(colors: [
-            Color(red: 10/255, green: 25/255, blue: 70/255),   // أزرق داكن
-            Color(red: 55/255, green: 15/255, blue: 90/255)    // بنفسجي غامق
-        ]),
-        startPoint: .top,
-        endPoint: .bottom
-    )
-            .ignoresSafeArea()
+            AppConfig.shared.playerGradient
+                .ignoresSafeArea()
             
             VStack(spacing: 40) {
                 HStack {
@@ -26,20 +19,20 @@ struct FullPlayerView: View {
                     }) {
                         Image(systemName: "chevron.down")
                             .font(.title2)
-                            .foregroundColor(.white)
+                            .foregroundColor(AppConfig.shared.textPrimary)
                     }
                     
                     Spacer()
                     
                     VStack(spacing: 4) {
-                        Text("الآن يُشغل")
+                        Text(AppConfig.shared.strings.nowPlaying)
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(AppConfig.shared.textSecondary)
                         
                         if let surah = audioPlayer.currentSurah {
                             Text(surah.name)
                                 .font(.headline)
-                                .foregroundColor(.white)
+                                .foregroundColor(AppConfig.shared.textPrimary)
                         }
                     }
                     
@@ -51,7 +44,7 @@ struct FullPlayerView: View {
                                 toggleFavorite(surah: surah)
                             } label: {
                                 Label(
-                                    isFavorite(surah: surah) ? "إزالة من المفضلة" : "إضافة إلى المفضلة",
+                                    isFavorite(surah: surah) ? AppConfig.shared.strings.removeFromFavorites : AppConfig.shared.strings.addToFavorites,
                                     systemImage: isFavorite(surah: surah) ? "heart.slash" : "heart"
                                 )
                             }
@@ -59,7 +52,7 @@ struct FullPlayerView: View {
                             Button {
                                 shareCurrentSurah()
                             } label: {
-                                Label("مشاركة", systemImage: "square.and.arrow.up")
+                                Label(AppConfig.shared.strings.share, systemImage: "square.and.arrow.up")
                             }
                         }
                         
@@ -67,12 +60,12 @@ struct FullPlayerView: View {
                             audioPlayer.stop()
                             showingFullPlayer = false
                         } label: {
-                            Label("إيقاف", systemImage: "stop.circle")
+                            Label(AppConfig.shared.strings.stop, systemImage: "stop.circle")
                         }
                     } label: {
                         Image(systemName: "ellipsis")
                             .font(.title2)
-                            .foregroundColor(.white)
+                            .foregroundColor(AppConfig.shared.textPrimary)
                     }
                 }
                 .padding(.horizontal)
@@ -80,12 +73,12 @@ struct FullPlayerView: View {
                 ZStack {
                     Circle()
                         .fill(LinearGradient(
-                            gradient: Gradient(colors: [.purple, .blue]),
+                            gradient: Gradient(colors: [.appPrimary, .appSecondary]),
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         ))
                         .frame(width: 280, height: 280)
-                        .shadow(color: .purple.opacity(0.3), radius: 20)
+                        .shadow(color: .appPrimary.opacity(0.3), radius: 20)
                     
                     if let reciter = audioPlayer.currentReciter {
                         RemoteImage(
@@ -98,7 +91,7 @@ struct FullPlayerView: View {
                     } else {
                         Image(systemName: "book.circle.fill")
                             .font(.system(size: 120))
-                            .foregroundColor(.white)
+                            .foregroundColor(AppConfig.shared.textPrimary)
                     }
                 }
                 
@@ -107,13 +100,13 @@ struct FullPlayerView: View {
                         Text(surah.name)
                             .font(.title2)
                             .fontWeight(.bold)
-                            .foregroundColor(.white)
+                            .foregroundColor(AppConfig.shared.textPrimary)
                     }
                     
                     if let reciter = audioPlayer.currentReciter {
                         Text(reciter.name)
                             .font(.body)
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(AppConfig.shared.textSecondary)
                     }
                 }
                 
@@ -121,13 +114,13 @@ struct FullPlayerView: View {
                     HStack {
                         Text(audioPlayer.currentTime.formatTime())
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(AppConfig.shared.textSecondary)
                         
                         Spacer()
                         
                         Text(audioPlayer.duration.formatTime())
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(AppConfig.shared.textSecondary)
                     }
                     
                     Slider(
@@ -140,7 +133,7 @@ struct FullPlayerView: View {
                             }
                         }
                     )
-                    .accentColor(.purple)
+                    .accentColor(.appPrimary)
                 }
                 .padding(.horizontal)
                 
@@ -149,13 +142,13 @@ struct FullPlayerView: View {
                         Button(action: {}) {
                             Image(systemName: "shuffle")
                                 .font(.title3)
-                                .foregroundColor(.white.opacity(0.7))
+                                .foregroundColor(AppConfig.shared.textSecondary)
                         }
                         
                         Button(action: {}) {
                             Image(systemName: "repeat")
                                 .font(.title3)
-                                .foregroundColor(.white.opacity(0.7))
+                                .foregroundColor(AppConfig.shared.textSecondary)
                         }
                         
                         if let surah = audioPlayer.currentSurah {
@@ -164,14 +157,14 @@ struct FullPlayerView: View {
                             } label: {
                                 Image(systemName: isFavorite(surah: surah) ? "heart.fill" : "heart")
                                     .font(.title3)
-                                    .foregroundColor(isFavorite(surah: surah) ? .red : .white.opacity(0.7))
+                                    .foregroundColor(isFavorite(surah: surah) ? .red : AppConfig.shared.textSecondary)
                             }
                         }
                         
                         Button(action: {}) {
                             Image(systemName: "speaker.wave.2")
                                 .font(.title3)
-                                .foregroundColor(.white.opacity(0.7))
+                                .foregroundColor(AppConfig.shared.textSecondary)
                         }
                     }
                     
@@ -179,25 +172,25 @@ struct FullPlayerView: View {
                         Button(action: audioPlayer.skipBackward) {
                             Image(systemName: "gobackward.15")
                                 .font(.title2)
-                                .foregroundColor(.white)
+                                .foregroundColor(AppConfig.shared.textPrimary)
                         }
                         
                         Button(action: audioPlayer.playPause) {
                             ZStack {
                                 Circle()
-                                    .fill(Color.purple)
+                                    .fill(Color.appPrimary)
                                     .frame(width: 70, height: 70)
                                 
                                 Image(systemName: audioPlayer.isPlaying ? "pause.fill" : "play.fill")
                                     .font(.title2)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(AppConfig.shared.textPrimary)
                             }
                         }
                         
                         Button(action: audioPlayer.skipForward) {
                             Image(systemName: "goforward.15")
                                 .font(.title2)
-                                .foregroundColor(.white)
+                                .foregroundColor(AppConfig.shared.textPrimary)
                         }
                     }
                 }
@@ -208,8 +201,8 @@ struct FullPlayerView: View {
         }
         .preferredColorScheme(.dark)
         .navigationBarHidden(true)
-        .alert("خطأ في التشغيل", isPresented: .constant(audioPlayer.errorMessage != nil)) {
-            Button("حسناً", role: .cancel) {
+        .alert(AppConfig.shared.strings.playbackError, isPresented: .constant(audioPlayer.errorMessage != nil)) {
+            Button(AppConfig.shared.strings.ok, role: .cancel) {
                 audioPlayer.errorMessage = nil
             }
         } message: {
@@ -221,7 +214,7 @@ struct FullPlayerView: View {
     
     private func shareCurrentSurah() {
         if let surah = audioPlayer.currentSurah, let reciter = audioPlayer.currentReciter {
-            let shareText = "أستمع الآن إلى سورة \(surah.name) بصوت القارئ \(reciter.name) في تطبيق Quran Aura"
+            let shareText = "أستمع الآن إلى سورة \(surah.name) بصوت القارئ \(reciter.name) في تطبيق \(AppConfig.shared.appName)"
             let activityVC = UIActivityViewController(activityItems: [shareText], applicationActivities: nil)
             
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,

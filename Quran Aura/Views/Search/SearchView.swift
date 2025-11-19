@@ -23,7 +23,7 @@ struct SearchView: View {
             if searchText.isEmpty {
                 List {
                     if !appData.favoriteSurahs.isEmpty {
-                        Section("السور المفضلة") {
+                        Section(AppConfig.shared.strings.favoriteSurahsSection) {
                             ForEach(appData.favoriteSurahs) { surah in
                                 SurahRow(
                                     surah: surah,
@@ -36,7 +36,7 @@ struct SearchView: View {
                     }
                     
                     if !appData.favoriteReciters.isEmpty {
-                        Section("القراء المفضلون") {
+                        Section(AppConfig.shared.strings.favoriteRecitersSection) {
                             ForEach(appData.favoriteReciters) { reciter in
                                 ReciterRow(reciter: reciter, appData: appData)
                             }
@@ -47,7 +47,7 @@ struct SearchView: View {
             } else {
                 List {
                     if !filteredSurahs.isEmpty {
-                        Section("السور") {
+                        Section(AppConfig.shared.strings.searchSurahs) {
                             ForEach(filteredSurahs) { surah in
                                 SurahRow(
                                     surah: surah,
@@ -60,7 +60,7 @@ struct SearchView: View {
                     }
                     
                     if !filteredReciters.isEmpty {
-                        Section("القراء") {
+                        Section(AppConfig.shared.strings.searchReciters) {
                             ForEach(filteredReciters) { reciter in
                                 ReciterRow(reciter: reciter, appData: appData)
                             }
@@ -69,7 +69,7 @@ struct SearchView: View {
                     
                     if filteredSurahs.isEmpty && filteredReciters.isEmpty {
                         Section {
-                            Text("لا توجد نتائج")
+                            Text(AppConfig.shared.strings.noResults)
                                 .foregroundColor(.gray)
                                 .frame(maxWidth: .infinity, alignment: .center)
                         }
@@ -78,8 +78,8 @@ struct SearchView: View {
                 .listStyle(PlainListStyle())
             }
         }
-        .background(Color(.systemBackground))
-        .navigationTitle("بحث")
-        .searchable(text: $searchText, prompt: "ابحث عن سورة أو قارئ...")
+        .background(AppConfig.shared.backgroundColor)
+        .navigationTitle(AppConfig.shared.strings.search)
+        .searchable(text: $searchText, prompt: AppConfig.shared.strings.searchPlaceholder)
     }
 }

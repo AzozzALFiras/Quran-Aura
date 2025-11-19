@@ -1,4 +1,3 @@
-// SocialMediaButton.swift
 import SwiftUI
 
 struct SocialMediaButton: View {
@@ -16,14 +15,14 @@ struct SocialMediaButton: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 65, height: 65)
-                    .foregroundColor(.white)
+                    .foregroundColor(AppConfig.shared.textPrimary)
                     .frame(width: 70, height: 70)
                     .clipShape(RoundedRectangle(cornerRadius: 18))
                     .shadow(color: color.opacity(0.5), radius: 8, x: 0, y: 4)
                 
                 Text(platform)
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(.primary)
+                    .foregroundColor(AppConfig.shared.textPrimary)
                     .multilineTextAlignment(.center)
             }
         }

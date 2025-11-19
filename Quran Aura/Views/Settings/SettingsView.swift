@@ -1,4 +1,3 @@
-// SettingsView.swift
 import SwiftUI
 
 struct SettingsView: View {
@@ -8,70 +7,75 @@ struct SettingsView: View {
     let themes = ["أرجواني", "أزرق", "أخضر", "برتقالي"]
     
     var body: some View {
-        Form {
-            Section(header: Text("المظهر")) {
-                Toggle("الوضع الليلي", isOn: $appData.settings.darkModeEnabled)
-                
-                Picker("لون التطبيق", selection: $appData.settings.selectedTheme) {
-                    ForEach(0..<themes.count, id: \.self) { index in
-                        Text(themes[index]).tag(index)
+        NavigationView {
+            Form {
+                Section(header: Text(AppConfig.shared.strings.appearance).foregroundColor(.appPrimary)) {
+                    Toggle(AppConfig.shared.strings.darkMode, isOn: $appData.settings.darkModeEnabled)
+                    
+                    Picker(AppConfig.shared.strings.appTheme, selection: $appData.settings.selectedTheme) {
+                        ForEach(0..<themes.count, id: \.self) { index in
+                            Text(themes[index]).tag(index)
+                        }
                     }
                 }
-            }
-            
-            Section(header: Text("وسائل التواصل الاجتماعي")) {
-                SocialMediaView()
-            }
-            
-            Section(header: Text("عام")) {
-                Button("حول التطبيق") {
-                    showingAbout = true
+                
+                Section(header: Text(AppConfig.shared.strings.socialMedia).foregroundColor(.appPrimary)) {
+                    SocialMediaView()
                 }
                 
-                Button("مشاركة التطبيق") {
-                    shareApp()
-                }
-            }
-            
-            Section(header: Text("المطور")) {
-                HStack {
-                    Text("الإصدار")
-                    Spacer()
-                    Text("1.0.0")
-                        .foregroundColor(.gray)
-                }
-                
-                HStack {
-                    Text("البريد الإلكتروني")
-                    Spacer()
-                    Text("dev@quranaura.com")
-                        .foregroundColor(.gray)
+                Section(header: Text("عام").foregroundColor(.appPrimary)) {
+                    Button(AppConfig.shared.strings.aboutApp) {
+                        showingAbout = true
+                    }
+                    .foregroundColor(AppConfig.shared.textPrimary)
+                    
+                    Button(AppConfig.shared.strings.shareApp) {
+                        shareApp()
+                    }
+                    .foregroundColor(AppConfig.shared.textPrimary)
                 }
                 
-                HStack {
-                    Text("الموقع")
-                    Spacer()
-                    Text("quranaura.com")
-                        .foregroundColor(.gray)
+                Section(header: Text(AppConfig.shared.strings.developer).foregroundColor(.appPrimary)) {
+                    HStack {
+                        Text(AppConfig.shared.strings.version)
+                        Spacer()
+                        Text(AppConfig.shared.appVersion)
+                            .foregroundColor(AppConfig.shared.textSecondary)
+                    }
+                    
+                    HStack {
+                        Text(AppConfig.shared.strings.email)
+                        Spacer()
+                        Text(AppConfig.shared.developerEmail)
+                            .foregroundColor(AppConfig.shared.textSecondary)
+                    }
+                    
+                    HStack {
+                        Text(AppConfig.shared.strings.website)
+                        Spacer()
+                        Text(AppConfig.shared.website)
+                            .foregroundColor(AppConfig.shared.textSecondary)
+                    }
+                }
+                
+                Section {
+                    Text("© 2025 \(AppConfig.shared.appName). جميع الحقوق محفوظة.")
+                        .font(.caption)
+                        .foregroundColor(AppConfig.shared.textSecondary)
+                        .frame(maxWidth: .infinity, alignment: .center)
                 }
             }
-            
-            Section {
-                Text("© 2025 Quran Aura. جميع الحقوق محفوظة.")
-                    .font(.caption)
-                    .foregroundColor(.gray)
-                    .frame(maxWidth: .infinity, alignment: .center)
+            .background(AppConfig.shared.primaryGradient)
+            .navigationTitle(AppConfig.shared.strings.settings)
+            .preferredColorScheme(appData.settings.darkModeEnabled ? .dark : .light)
+            .sheet(isPresented: $showingAbout) {
+                AboutView()
             }
-        }
-        .navigationTitle("الإعدادات")
-        .preferredColorScheme(appData.settings.darkModeEnabled ? .dark : .light)
-        .sheet(isPresented: $showingAbout) {
-            AboutView()
         }
     }
     
     private func shareApp() {
-        let shareText = "تطبيق Quran Aura - استمع إلى القرآن الكريم"
+        let shareText = "تطبيق \(AppConfig.shared.appName) - استمع إلى القرآن الكريم"
         let activityVC = UIActivityViewController(activityItems: [shareText], applicationActivities: nil)
         
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,

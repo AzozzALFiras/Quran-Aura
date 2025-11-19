@@ -20,7 +20,7 @@ struct ReciterCard: View {
                 } label: {
                     Image(systemName: isFavorite(reciter: reciter) ? "heart.fill" : "heart")
                         .font(.caption)
-                        .foregroundColor(isFavorite(reciter: reciter) ? .red : .white)
+                        .foregroundColor(isFavorite(reciter: reciter) ? .red : AppConfig.shared.textPrimary)
                         .padding(6)
                         .background(Color(.systemBackground))
                         .clipShape(Circle())
@@ -30,13 +30,13 @@ struct ReciterCard: View {
             Text(reciter.name)
                 .font(.caption)
                 .fontWeight(.medium)
-                .foregroundColor(.white)
+                .foregroundColor(AppConfig.shared.textPrimary)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
         }
         .frame(width: 100)
         .padding()
-        .background(Color(.secondarySystemBackground))
+        .background(AppConfig.shared.cardBackground)
         .cornerRadius(12)
     }
     

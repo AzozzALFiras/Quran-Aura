@@ -1,4 +1,3 @@
-// AboutView.swift
 import SwiftUI
 
 struct AboutView: View {
@@ -10,14 +9,16 @@ struct AboutView: View {
                 VStack(spacing: 20) {
                     Image(systemName: "book.circle.fill")
                         .font(.system(size: 80))
-                        .foregroundColor(.purple)
+                        .foregroundColor(.appPrimary)
                     
-                    Text("Quran Aura")
+                    Text(AppConfig.shared.appName)
                         .font(.title)
                         .fontWeight(.bold)
+                        .foregroundColor(AppConfig.shared.textPrimary)
                     
-                    Text("تطبيق Quran Aura هو تطبيق مجاني للاستماع إلى القرآن الكريم بأصوات أشهر القراء. تم تطويره بحب ❤️ لتسهيل الوصول إلى كلام الله تعالى.")
+                    Text("تطبيق \(AppConfig.shared.appName) هو تطبيق مجاني للاستماع إلى القرآن الكريم بأصوات أشهر القراء. تم تطويره بحب ❤️ لتسهيل الوصول إلى كلام الله تعالى.")
                         .multilineTextAlignment(.center)
+                        .foregroundColor(AppConfig.shared.textSecondary)
                         .padding()
                     
                     VStack(alignment: .leading, spacing: 10) {
@@ -28,14 +29,15 @@ struct AboutView: View {
                     }
                     .padding()
                     
-                    Text("نسخة 1.0.0")
+                    Text("\(AppConfig.shared.strings.version) \(AppConfig.shared.appVersion)")
                         .font(.caption)
-                        .foregroundColor(.gray)
+                        .foregroundColor(AppConfig.shared.textSecondary)
                 }
                 .padding()
             }
-            .navigationTitle("حول التطبيق")
-            .navigationBarItems(trailing: Button("تم") {
+            .background(AppConfig.shared.primaryGradient)
+            .navigationTitle(AppConfig.shared.strings.aboutApp)
+            .navigationBarItems(trailing: Button(AppConfig.shared.strings.done) {
                 presentationMode.wrappedValue.dismiss()
             })
         }
@@ -51,15 +53,16 @@ struct FeatureRow: View {
         HStack {
             Image(systemName: icon)
                 .font(.title2)
-                .foregroundColor(.purple)
+                .foregroundColor(.appPrimary)
                 .frame(width: 40)
             
             VStack(alignment: .leading) {
                 Text(title)
                     .font(.headline)
+                    .foregroundColor(AppConfig.shared.textPrimary)
                 Text(subtitle)
                     .font(.caption)
-                    .foregroundColor(.gray)
+                    .foregroundColor(AppConfig.shared.textSecondary)
             }
             
             Spacer()

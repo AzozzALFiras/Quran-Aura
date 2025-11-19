@@ -58,4 +58,31 @@ class NetworkService {
             }
         }.resume()
     }
+    
+    // NEW: Fetch Duas from API
+    func fetchDuas(completion: @escaping (Result<[DuaCategory], Error>) -> Void) {
+        guard let url = URL(string: "https://quran-aura.fahmly.com/api/v1/duas.php") else {
+            completion(.failure(NSError(domain: "Invalid URL", code: 0)))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(NSError(domain: "No data", code: 0)))
+                return
+            }
+            
+            do {
+                let response = try JSONDecoder().decode(DuasResponse.self, from: data)
+                completion(.success(response.data.categories))
+            } catch {
+                completion(.failure(error))
+            }
+        }.resume()
+    }
 }

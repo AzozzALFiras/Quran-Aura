@@ -79,13 +79,13 @@ struct ContentView: View {
                     }
                     .tag(3)
                     
-                    // Settings Tab
+                    // Duas Tab - بدون تشغيل صوتي
                     NavigationView {
-                        SettingsView(appData: appData)
+                        DuasView()
                     }
                     .tabItem {
-                        Image(systemName: "gearshape.fill")
-                        Text("الإعدادات")
+                        Image(systemName: "hands.sparkles.fill")
+                        Text("الأدعية")
                     }
                     .tag(4)
                 }
@@ -94,19 +94,18 @@ struct ContentView: View {
             }
             
             // Mini Player - Appears above TabView
-if showingMiniPlayer && audioPlayer.currentSurah != nil && !showingFullPlayer {
-    MiniPlayerView(audioPlayer: audioPlayer)
-        .frame(height: 100) // Increase the height of MiniPlayer
-        .onTapGesture {
-            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                showingFullPlayer = true
+            if showingMiniPlayer && audioPlayer.currentSurah != nil && !showingFullPlayer {
+                MiniPlayerView(audioPlayer: audioPlayer)
+                    .frame(height: 100)
+                    .onTapGesture {
+                        withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                            showingFullPlayer = true
+                        }
+                    }
+                    .transition(.move(edge: .bottom))
+                    .zIndex(1)
+                    .padding(.bottom, 60)
             }
-        }
-        .transition(.move(edge: .bottom))
-        .zIndex(1)
-        .padding(.bottom, 60) // Raise MiniPlayer higher above the bottom
-}
-
             
             // Full Player Overlay - Appears above everything
             if showingFullPlayer {
@@ -116,7 +115,7 @@ if showingMiniPlayer && audioPlayer.currentSurah != nil && !showingFullPlayer {
                     showingFullPlayer: $showingFullPlayer
                 )
                 .transition(.opacity.combined(with: .scale(scale: 0.95)))
-                .zIndex(2) // Higher than MiniPlayer and TabView
+                .zIndex(2)
             }
         }
         .ignoresSafeArea(.keyboard)

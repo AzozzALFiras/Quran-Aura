@@ -26,9 +26,9 @@ struct SurahsListView: View {
             )
         }
         .listStyle(PlainListStyle())
-        .background(Color(.systemBackground))
-        .navigationTitle("سور القرآن")
-        .searchable(text: $searchText, prompt: "ابحث عن سورة...")
+        .background(AppConfig.shared.primaryGradient)
+        .navigationTitle(AppConfig.shared.strings.surahs)
+        .searchable(text: $searchText, prompt: AppConfig.shared.strings.searchSurahs)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -39,6 +39,7 @@ struct SurahsListView: View {
                         Text(selectedReciter?.name ?? "اختر قارئ")
                             .font(.caption)
                     }
+                    .foregroundColor(.appPrimary)
                 }
             }
         }
@@ -48,12 +49,12 @@ struct SurahsListView: View {
                     selectedReciter = reciter
                 }
             }
-            Button("إلغاء", role: .cancel) { }
+            Button(AppConfig.shared.strings.cancel, role: .cancel) { }
         } message: {
             Text("يرجى اختيار قارئ لتشغيل السورة")
         }
-        .alert("خطأ في التشغيل", isPresented: .constant(audioPlayer.errorMessage != nil)) {
-            Button("حسناً", role: .cancel) {
+        .alert(AppConfig.shared.strings.playbackError, isPresented: .constant(audioPlayer.errorMessage != nil)) {
+            Button(AppConfig.shared.strings.ok, role: .cancel) {
                 audioPlayer.errorMessage = nil
             }
         } message: {

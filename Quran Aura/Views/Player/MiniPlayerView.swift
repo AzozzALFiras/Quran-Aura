@@ -40,11 +40,11 @@ struct MiniPlayerView: View {
                         } else {
                             Image(systemName: "music.note")
                                 .font(.title2)
-                                .foregroundColor(.white)
+                                .foregroundColor(AppConfig.shared.textPrimary)
                                 .frame(width: 50, height: 50)
                                 .background(
                                     LinearGradient(
-                                        gradient: Gradient(colors: [.purple, .blue]),
+                                        gradient: Gradient(colors: [.appPrimary, .appSecondary]),
                                         startPoint: .topLeading,
                                         endPoint: .bottomTrailing
                                     )
@@ -62,13 +62,13 @@ struct MiniPlayerView: View {
                         Text(surah.name)
                             .font(.subheadline)
                             .fontWeight(.semibold)
-                            .foregroundColor(.white)
+                            .foregroundColor(AppConfig.shared.textPrimary)
                             .lineLimit(1)
                         
                         if let reciter = audioPlayer.currentReciter {
                             Text(reciter.name)
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.8))
+                                .foregroundColor(AppConfig.shared.textSecondary)
                                 .lineLimit(1)
                         }
                     }
@@ -79,19 +79,19 @@ struct MiniPlayerView: View {
                         Button(action: audioPlayer.skipBackward) {
                             Image(systemName: "gobackward.15")
                                 .font(.body)
-                                .foregroundColor(.white)
+                                .foregroundColor(AppConfig.shared.textPrimary)
                         }
                         
                         Button(action: audioPlayer.playPause) {
                             Image(systemName: audioPlayer.isPlaying ? "pause.circle.fill" : "play.circle.fill")
                                 .font(.title2)
-                                .foregroundColor(.white)
+                                .foregroundColor(AppConfig.shared.textPrimary)
                         }
                         
                         Button(action: audioPlayer.skipForward) {
                             Image(systemName: "goforward.15")
                                 .font(.body)
-                                .foregroundColor(.white)
+                                .foregroundColor(AppConfig.shared.textPrimary)
                         }
                     }
                 }
@@ -101,8 +101,8 @@ struct MiniPlayerView: View {
             .background(
                 LinearGradient(
                     gradient: Gradient(colors: [
-                        Color.purple.opacity(0.9),
-                        Color.blue.opacity(0.8)
+                        Color.appPrimary.opacity(0.9),
+                        Color.appSecondary.opacity(0.8)
                     ]),
                     startPoint: .leading,
                     endPoint: .trailing
@@ -113,8 +113,8 @@ struct MiniPlayerView: View {
             .padding(.bottom, 8)
             .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
         }
-        .alert("خطأ في التشغيل", isPresented: .constant(audioPlayer.errorMessage != nil)) {
-            Button("حسناً", role: .cancel) {
+        .alert(AppConfig.shared.strings.playbackError, isPresented: .constant(audioPlayer.errorMessage != nil)) {
+            Button(AppConfig.shared.strings.ok, role: .cancel) {
                 audioPlayer.errorMessage = nil
             }
         } message: {
