@@ -76,7 +76,17 @@
 
 ## 🖼️ Screenshots
 
-> **Coming Soon**: Screenshots will be added as the app development progresses.
+<p align="center">
+<img src="https://raw.githubusercontent.com/AzozzALFiras/Quran-Aura/refs/heads/main/screenshots/1.png" width="250" height="520" />
+<img src="https://raw.githubusercontent.com/AzozzALFiras/Quran-Aura/refs/heads/main/screenshots/2.png" width="250" height="520" />
+<img src="https://raw.githubusercontent.com/AzozzALFiras/Quran-Aura/refs/heads/main/screenshots/3.png" width="250" height="520" />
+<img src="https://raw.githubusercontent.com/AzozzALFiras/Quran-Aura/refs/heads/main/screenshots/4.png" width="250" height="520" />
+<img src="https://raw.githubusercontent.com/AzozzALFiras/Quran-Aura/refs/heads/main/screenshots/5.png" width="250" height="520" />
+<img src="https://raw.githubusercontent.com/AzozzALFiras/Quran-Aura/refs/heads/main/screenshots/6.png" width="250" height="520" />
+<img src="https://raw.githubusercontent.com/AzozzALFiras/Quran-Aura/refs/heads/main/screenshots/7.png" width="250" height="520" />
+<img src="https://raw.githubusercontent.com/AzozzALFiras/Quran-Aura/refs/heads/main/screenshots/8.png" width="250" height="520" />
+<img src="https://raw.githubusercontent.com/AzozzALFiras/Quran-Aura/refs/heads/main/screenshots/9.png" width="250" height="520" />
+</p>
 
 ---
 
